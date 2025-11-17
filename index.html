@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Office Mapper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+
+<body>
+    <!-- start header -->
+    <header></header>
+    <!-- end header -->
+
+    <!-- start container -->
+    <div class="container">
+        <!-- start asidebar -->
+        <aside class="sidebar">
+            <h2>Unassigned Employees</h2>
+            <button class="add_worker_but">➕ Add New Worker</button>
+            <div class="unassigned_list" id="unassigned_list">
+                <div class="employee-card">
+                    <img src="IMG/Admin-Profile-Vector-PNG-Clipart.png" alt="">
+                    <div class="employee-info">
+                        <h3>Lorem, ipsum.</h3>
+                        <p>Lorem, ipsum.</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- end sidebar -->
+        <!-- start main -->
+        <main class="main" id="main">
+            <h1>Office Map</h1>
+
+            <div class="office_zone" id="office_zone">
+                <!-- ----------------------------------------------- -->
+                <div class="zone" id="Conference">
+                    <div class="zone-header">
+                        <div>
+                            <h3>🎤 Conference Room</h3>
+                            <span class="zone_capacity">0/10</span>
+                        </div>
+                        <button class="add_zone_btn">+</button>
+                    </div>
+                    <div class="employee-list" id="ConferenceList">
+                    </div>
+                </div>
+                <!-- ---------------------------------------------- -->
+                <div class="zone" id="Reception" data-empty="empty-required">
+                    <div class="zone-header">
+                        <div>
+                            <h3>🎯 Reception</h3>
+                            <span class="zone_capacity">0/10</span>
+                        </div>
+                        <button class="add_zone_btn">+</button>
+                    </div>
+                    <div class="employee-list" id="Reception_list">
+                    </div>
+                </div>
+                <!-- ------------------------------------------- -->
+                <div class="zone" id="server" data-empty="empty-required">
+                    <div class="zone-header">
+                        <div>
+                            <h3>🖥️ Server Room</h3>
+                            <span class="zone_capacity">0/10</span>
+                        </div>
+                        <button class="add_zone_btn">+</button>
+                    </div>
+                    <div class="employee-list" id="serverList">
+                    </div>
+                </div>
+                <!-- ------------------------------------------- -->
+                <div class="zone" id="Security" data-empty="empty-required">
+                    <div class="zone-header">
+                        <div>
+                            <h3>🛡️ Security Room</h3>
+                            <span class="zone_capacity">0/10</span>
+                        </div>
+                        <button class="add_zone_btn">+</button>
+                    </div>
+                    <div class="employee-list" id="SecurityList">
+                    </div>
+                </div>
+                <!-- ------------------------------------------- -->
+                <div class="zone" id="Staff">
+                    <div class="zone-header">
+                        <div>
+                            <h3>👥 Staff Room</h3>
+                            <span class="zone_capacity">0/10</span>
+                        </div>
+                        <button class="add_zone_btn">+</button>
+                    </div>
+                    <div class="employee-list" id="StaffList">
+                    </div>
+                </div>
+                <!-- ------------------------------------------- -->
+                <div class="zone" id="Archives">
+                    <div class="zone-header">
+                        <div>
+                            <h3>📚 Archives</h3>
+                            <span class="zone_capacity">0/10</span>
+                        </div>
+                        <button class="add_zone_btn">+</button>
+                    </div>
+                    <div class="employee-list" id="ArchivesList">
+                    </div>
+                </div>
+                <!-- ------------------------------------------- -->
+            </div>
+        </main>
+        <!-- end main -->
+    </div>
+    <!-- end container -->
+    <footer></footer>
+    <script src="JS/script.js"></script>
+</body>
+
+</html>
