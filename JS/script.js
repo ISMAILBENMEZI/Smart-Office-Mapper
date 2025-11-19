@@ -108,8 +108,8 @@ function addEmployee() {
             return showMessage(badMessage, `Please fill the ${Id} filed`);
 
         if(Id === "Phone" && !phoneRegex.test(input.value))
-            return showMessage(badMessage , `Invalid ${Id} number`);
-        
+
+
         if(Id === "Email" && !emailRegex.test(input.value));
             return showMessage(badMessage , `Invalid ${Id} address`);
     }
