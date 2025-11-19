@@ -2,11 +2,15 @@
 const goodMessage = document.getElementById("good");
 const badMessage = document.getElementById("bad");
 const addEmployeeFrom = document.getElementById("add_employee_from");
-const experiencesList = document.getElementById("experiences_list");
 const unassignedList = document.getElementById("unassigned_list");
+const experiencesList = document.getElementById("experiences_list");
+const profailModal = document.getElementById("profail_modal");
+const addModal = document.getElementById("add_modal");
+const addEmployeeBtn = document.getElementById("add_employee_btn");
 // ------------------------------
 
-document.addEventListener('DOMContentLoaded' , function (){
+document.addEventListener('DOMContentLoaded', function () {
+    unassignedList.innerHTML = "";
     afficheEmployeesCards()
 })
 
@@ -17,7 +21,7 @@ function showMessage(element, text) {
 }
 
 document.getElementById("add_worker_but").addEventListener("click", function () {
-    document.getElementById("add_modal").style.display = "flex";
+    addModal.style.display = "flex";
     showThephoto()
 });
 
@@ -26,24 +30,10 @@ document.getElementById("add_close").addEventListener("click", function () {
 });
 
 document.getElementById("add_experience_btn").addEventListener("click", function () {
-    const experiencesItem = document.createElement("div");
-    experiencesItem.className = 'experiences_item';
-    experiencesItem.innerHTML = `
-        <button type="button" class="remove_experience_btn">✕</button>
-        <label>Company</label>
-        <input type="text"  class="company_experiences">
-        <label>Role</label>
-        <input type="text" class="Position_experiences">
-        <label>From</label>
-        <input type="date" class="From_experiences">
-        <label>To</label>
-        <input type="date"  class="To_experiences">
-    `
-    experiencesList.appendChild(experiencesItem);
+    addNewEexperience()
 });
 
 experiencesList.addEventListener("click", function (e) {
-    console.log(e)
     if (e.target.classList.contains('remove_experience_btn')) {
         const experiencesItem = e.target.closest(".experiences_item");
         experiencesItem.remove();
@@ -52,10 +42,9 @@ experiencesList.addEventListener("click", function (e) {
 
 addEmployeeFrom.addEventListener("submit", (e) => {
     e.preventDefault()
-    addEmployee();
+    if (addEmployeeBtn.textContent == "Add Employee")
+        addEmployee();
 })
-
-
 
 function showThephoto() {
     const PhotoInput = document.getElementById("Photo");
@@ -73,13 +62,28 @@ function showThephoto() {
     })
 }
 
-function getdata() {
+function getData() {
     let eventData = localStorage.getItem("employeesInformation");
     return eventData ? JSON.parse(eventData) : [];
 }
 
+function addNewEexperience(obj = null) {
+    const experiencesItem = document.createElement("div");
+    experiencesItem.className = 'experiences_item';
+    experiencesItem.innerHTML = `
+        <button type="button" class="remove_experience_btn">✕</button>
+        <label>Company</label>
+        <input type="text"  class="company_experiences" value = "${obj?.Company || ''}">
+        <label>Role</label>
+        <input type="text" class="Position_experiences" value = "${obj?.Position || ''}">
+        <label>From</label>
+        <input type="date" class="From_experiences" value = "${obj?.From || ''}">
+        <label>To</label>
+        <input type="date"  class="To_experiences" value = "${obj?.To || ''}">
+    `
+    experiencesList.appendChild(experiencesItem);
+}
 function addEmployee() {
-
     const experiencesItem = document.querySelectorAll(".experiences_item");
     let experiences = [];
     experiencesItem.forEach(item => {
@@ -107,11 +111,11 @@ function addEmployee() {
         if (input.value.trim() === "")
             return showMessage(badMessage, `Please fill the ${Id} filed`);
 
-        if(Id === "Phone" && !phoneRegex.test(input.value))
+        if (Id === "Phone" && !phoneRegex.test(input.value))
+            return showMessage(badMessage, `Invalid ${Id} number`);
 
-
-        if(Id === "Email" && !emailRegex.test(input.value));
-            return showMessage(badMessage , `Invalid ${Id} address`);
+        if (Id === "Email" && !emailRegex.test(input.value))
+            return showMessage(badMessage, `Invalid ${Id} address`);
     }
 
     let employeeId = Math.random().toString(36).substr(2, 6);
@@ -126,40 +130,131 @@ function addEmployee() {
         Experiences: experiences
     };
 
-    let eventData = getdata();
+    let eventData = getData();
     eventData.push(InformationObject);
 
     localStorage.setItem("employeesInformation", JSON.stringify(eventData));
     showMessage(goodMessage, "Employee added successfully!")
     addEmployeeFrom.reset();
-    afficheEmployeesCards()
+    unassignedList.innerHTML = ""
+    afficheEmployeesCards();
+    return true;
 }
 
 function afficheEmployeesCards() {
-    const employeeCard = document.createElement("div");
-    employeeCard.className = "employee-card";
-    const afficheCards = JSON.parse(localStorage.getItem("employeesInformation"));
-    if(!afficheCards)
+    const afficheCards = getData();
+    if (!afficheCards)
         return;
     afficheCards.forEach(employee => {
+        displayEmployeesCards(employee);
+    })
+
+    function displayEmployeesCards(employee) {
+        const employeeCard = document.createElement("div");
+        employeeCard.className = "employee-card";
         employeeCard.innerHTML = `
-            <img src="${employee.Photo || 'IMG/Admin-Profile-Vector-PNG-Clipart.png'}" alt="">
-            <div class="employee-info">
+            <img onclick = "afficheEmployeeInformation('${employee.Id}')" src="${employee.Photo || '../IMG/Admin-Profile-Vector-PNG-Clipart.png'}" alt="">
+            <div class="employee-info" onclick = "afficheEmployeeInformation('${employee.Id}')">
                 <h3>${employee.Name}</h3>
                 <p>${employee.Role}</p>
             </div>
             <div class="thesupedit_btn">
-                <button class="edite_btn"><img src="IMG/write_11368664.png" alt=""></button>
-                <button class="delete_btn"><img src="IMG/delete_15917854.png" alt=""></button>
+                <button class="edite_btn" onclick = "editEmployeeInformation('${employee.Id}')"><img src="IMG/write_11368664.png" alt=""></button>
+                <button class="delete_btn" onclick = "suprimeEmployeesCards('${employee.Id}')"><img src="IMG/delete_15917854.png" alt=""></button>
             </div>
     `
+        unassignedList.appendChild(employeeCard);
+    }
+}
+
+function afficheEmployeeInformation(id) {
+    const searchEmployee = getData();
+    let searchEmployeeById = searchEmployee.find((e) => e.Id === id)
+    profailModal.style.display = "flex"
+    profailModal.innerHTML = `
+        <div class="employee_profaile">
+            <div class="employee_title">
+                <h2>Employee Profile</h2>
+                <button class="close_btn" onclick="closeEmployeeInformation()"">✕</button>
+            </div>
+            <div class="employee_info">
+                <div class="employe_img">
+                    <img src="${searchEmployeeById.Photo || '../IMG/Admin-Profile-Vector-PNG-Clipart.png'}"
+                        alt="">
+                </div>
+                <div class="employe_name">
+                    <h3>${searchEmployeeById.Name}</h3>
+                    <span>${searchEmployeeById.Role}</span>
+                </div>
+            </div>
+            <div class="employe_contact">
+                <div>📧 ${searchEmployeeById.Email}</div>
+                <div>📱 ${searchEmployeeById.Phone}</div>
+            </div>
+            <div class="employe_professional_exp" id ="employe_professional_exp">
+                <h3>Professional Experiences</h3>
+            </div>
+        </div>
+    `
+    const employeProfessionalExp = document.getElementById("employe_professional_exp");
+    searchEmployeeById.Experiences.forEach(experience => {
+        const employeeExperiences = document.createElement("div");
+        employeeExperiences.className = "employeeExperiences"
+        employeeExperiences.innerHTML += `
+            <div><span>Company:</span> ${experience.Company} </div>
+            <div><span>Role:</span> ${experience.Position} </div>
+            <div><span>From:</span> ${experience.From} </div>
+            <div><span>To:</span> ${experience.To} </div>
+        `
+        employeProfessionalExp.appendChild(employeeExperiences);
     })
-    unassignedList.appendChild(employeeCard);
+}
+
+function closeEmployeeInformation() {
+    profailModal.style.display = "none"
+}
+
+function editEmployeeInformation(id) {
+    const addTitle = document.getElementById("add_Title")
+    addTitle.textContent = "✍️Employee information modification"
+    addEmployeeBtn.textContent = "Modify"
+    experiencesList.innerHTML = "";
+    const searchEmployee = getData();
+    let searchEmployeeById = searchEmployee.find((e) => e.Id === id);
+    addModal.style.display = "flex"
+    document.getElementById("Name").value = searchEmployeeById.Name
+    document.getElementById("Role").value = searchEmployeeById.Role
+    document.getElementById("Photo").value = searchEmployeeById.Photo
+    document.getElementById("Email").value = searchEmployeeById.Email
+    document.getElementById("Phone").value = searchEmployeeById.Phone
+
+    searchEmployeeById.Experiences.forEach(experience => addNewEexperience(experience))
+    addEmployeeFrom.onsubmit = null;
+    addEmployeeFrom.onsubmit = function (e) {
+        e.preventDefault();
+        if (addEmployeeBtn.textContent == "Modify") {
+            if (addEmployee()) {
+                suprimeEmployeesCards(id);
+                addTitle.textContent = "➕ Add New Employee"
+                addEmployeeBtn.textContent = "Add Employee"
+                showMessage(goodMessage, "The employee’s information has been updated successfully.");
+                addModal.style.display = "none";
+            }
+        }
+    }
+}
+
+function suprimeEmployeesCards(id) {
+    const searchEmployee = getData();
+    let deleteEmployeeById = searchEmployee.filter((e) => e.Id !== id);
+    localStorage.setItem("employeesInformation", JSON.stringify(deleteEmployeeById));
+    unassignedList.innerHTML = ""
+    afficheEmployeesCards();
 }
 
 
-
 function initApp() {
-    
+    unassignedList.innerHTML = "";
+    afficheEmployeesCards();
 }
 initApp();

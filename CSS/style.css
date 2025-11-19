@@ -12,12 +12,13 @@ body {
 }
 
 
-.messag{
+.messag {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.messag div{
+
+.messag div {
     z-index: 1200;
     background: #ffffff;
     padding: 10px 20px;
@@ -30,13 +31,14 @@ body {
     top: 10px;
 }
 
-.messag .good{
+.messag .good {
     color: rgb(0, 255, 0);
 }
 
-.messag .bad{
+.messag .bad {
     color: red;
 }
+
 .container {
     max-width: 1500px;
     margin: 0 auto;
@@ -89,11 +91,11 @@ body {
 .employee-card {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     padding: 15px;
     border-radius: 12px;
     margin-bottom: 12px;
-    cursor: pointer;
     transition: all 0.3s;
     position: relative;
 }
@@ -110,36 +112,41 @@ body {
     object-fit: cover;
     margin-right: 12px;
     float: left;
+    cursor: pointer;
+}
+
+.employee-info {
+    cursor: pointer;
 }
 
 .employee-card h3 {
-    font-size: 16px;
+    font-size: 15px;
     color: #333;
     margin-bottom: 5px;
 }
 
 .employee-card p {
-    font-size: 13px;
+    font-size: 10px;
     color: #666;
 }
 
-.thesupedit_btn{
+.thesupedit_btn {
     display: flex;
 }
 
-.thesupedit_btn button{
+.thesupedit_btn button {
     border-radius: 50%;
     background: none;
     border: none;
 }
 
-.thesupedit_btn .edite_btn img{
+.thesupedit_btn .edite_btn img {
     width: 30px;
     height: 30px;
     cursor: pointer;
 }
 
-.thesupedit_btn .delete_btn img{
+.thesupedit_btn .delete_btn img {
     width: 25px;
     height: 25px;
     cursor: pointer;
@@ -451,6 +458,7 @@ div[data-empty~="empty-required"] {
     background: rgba(0, 0, 0, 0.7);
     z-index: 1000;
     display: none;
+    animation: errorMessag 0.5s ease;
 }
 
 .employee_profaile {
@@ -470,9 +478,9 @@ div[data-empty~="empty-required"] {
 
 .employee_info {
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    margin: 10px;
+    text-align: center;
 }
 
 .employe_img img {
@@ -491,9 +499,8 @@ div[data-empty~="empty-required"] {
 }
 
 .employe_name span {
-    font-size: 20px;
+    font-size: 15px;
     color: #34394d;
-    margin-left: 27%;
 }
 
 .employe_contact {
@@ -519,6 +526,16 @@ div[data-empty~="empty-required"] {
     color: #00187f;
 }
 
+.employeeExperiences{
+    background: #fff;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.employeeExperiences span{
+    color: #00187f;
+}
 
 .selest_modal {
     display: flex;
@@ -543,25 +560,27 @@ div[data-empty~="empty-required"] {
     max-height: 90vh;
     overflow-y: auto;
 }
-.select_header{
-    display:flex;
+
+.select_header {
+    display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
 
 /* ------------------------------------- */
-@keyframes errorMessag{
-    from{
+@keyframes errorMessag {
+    from {
         opacity: 0;
         transform: translateY(-10px);
     }
 
-    to{
+    to {
         opacity: 1;
         transform: translateY(0);
     }
 }
+
 /* ------------------------------------------ */
 @media (max-width: 1500px) {
 
