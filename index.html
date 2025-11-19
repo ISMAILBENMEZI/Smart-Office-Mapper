@@ -15,21 +15,18 @@
     <!-- start header -->
     <header></header>
     <!-- end header -->
-
+    <!-- the error messag -->
+    <article class="messag">
+        <div class="good" id="good">hello world</div>
+        <div class="bad" id="bad"></div>
+    </article>
     <!-- start container -->
     <div class="container">
         <!-- start asidebar -->
         <aside class="sidebar">
             <h2>Unassigned Employees</h2>
-            <button class="add_worker_but">➕ Add New Worker</button>
+            <button class="add_worker_but" id="add_worker_but">➕ Add New Worker</button>
             <div class="unassigned_list" id="unassigned_list">
-                <div class="employee-card">
-                    <img src="IMG/Admin-Profile-Vector-PNG-Clipart.png" alt="">
-                    <div class="employee-info">
-                        <h3>Lorem, ipsum.</h3>
-                        <p>Lorem, ipsum.</p>
-                    </div>
-                </div>
             </div>
         </aside>
         <!-- end sidebar -->
@@ -39,83 +36,199 @@
 
             <div class="office_zone" id="office_zone">
                 <!-- ----------------------------------------------- -->
-                <div class="zone" id="Conference">
-                    <div class="zone-header">
-                        <div>
-                            <h3>🎤 Conference Room</h3>
-                            <span class="zone_capacity">0/10</span>
+                <div class="the_first_zone">
+                    <div class="zone" id="Conference">
+                        <div class="zone-header">
+                            <div>
+                                <h3>🎤 Conference Room</h3>
+                                <span class="zone_capacity">0/4</span>
+                            </div>
+                            <button class="add_zone_btn">+</button>
                         </div>
-                        <button class="add_zone_btn">+</button>
-                    </div>
-                    <div class="employee-list" id="ConferenceList">
-                    </div>
-                </div>
-                <!-- ---------------------------------------------- -->
-                <div class="zone" id="Reception" data-empty="empty-required">
-                    <div class="zone-header">
-                        <div>
-                            <h3>🎯 Reception</h3>
-                            <span class="zone_capacity">0/10</span>
+                        <div class="employee-list" id="ConferenceList">
                         </div>
-                        <button class="add_zone_btn">+</button>
                     </div>
-                    <div class="employee-list" id="Reception_list">
-                    </div>
-                </div>
-                <!-- ------------------------------------------- -->
-                <div class="zone" id="server" data-empty="empty-required">
-                    <div class="zone-header">
-                        <div>
-                            <h3>🖥️ Server Room</h3>
-                            <span class="zone_capacity">0/10</span>
+                    <!-- ---------------------------------------------- -->
+                    <div class="zone" id="Staff">
+                        <div class="zone-header">
+                            <div>
+                                <h3>👥 Staff Room</h3>
+                                <span class="zone_capacity">0/12</span>
+                            </div>
+                            <button class="add_zone_btn">+</button>
                         </div>
-                        <button class="add_zone_btn">+</button>
-                    </div>
-                    <div class="employee-list" id="serverList">
+                        <div class="employee-list" id="StaffList">
+
+                        </div>
                     </div>
                 </div>
                 <!-- ------------------------------------------- -->
-                <div class="zone" id="Security" data-empty="empty-required">
-                    <div class="zone-header">
-                        <div>
-                            <h3>🛡️ Security Room</h3>
-                            <span class="zone_capacity">0/10</span>
+                <div class="the_second_zone">
+
+                    <div class="the_third_zone">
+                        <div class="zone" id="server" data-empty="empty-required">
+                            <div class="zone-header">
+                                <div>
+                                    <h3>🖥️ Server Room</h3>
+                                    <span class="zone_capacity">0/4</span>
+                                </div>
+                                <button class="add_zone_btn">+</button>
+                            </div>
+                            <div class="employee-list" id="serverList">
+
+                            </div>
                         </div>
-                        <button class="add_zone_btn">+</button>
+
+                        <!-- ------------------------------------------- -->
+                        <div class="zone" id="Security" data-empty="empty-required">
+                            <div class="zone-header">
+                                <div>
+                                    <h3>🛡️ Security Room</h3>
+                                    <span class="zone_capacity">0/4</span>
+                                </div>
+                                <button class="add_zone_btn">+</button>
+                            </div>
+                            <div class="employee-list" id="SecurityList">
+
+                            </div>
+                        </div>
                     </div>
-                    <div class="employee-list" id="SecurityList">
+                    <!-- ------------------------------------------- -->
+                    <div class="the_fourth_zone">
+                        <div class="zone" id="Reception" data-empty="empty-required">
+                            <div class="zone-header">
+                                <div>
+                                    <h3>🎯 Reception</h3>
+                                    <span class="zone_capacity">0/4</span>
+                                </div>
+                                <button class="add_zone_btn">+</button>
+                            </div>
+                            <div class="employee-list" id="Reception_list">
+                            </div>
+                        </div>
+
+                        <!-- ------------------------------------------- -->
+                        <div class="zone" id="Archives">
+                            <div class="zone-header">
+                                <div>
+                                    <h3>📚 Archives</h3>
+                                    <span class="zone_capacity">0/4</span>
+                                </div>
+                                <button class="add_zone_btn">+</button>
+                            </div>
+                            <div class="employee-list" id="ArchivesList">
+
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <!-- ------------------------------------------- -->
-                <div class="zone" id="Staff">
-                    <div class="zone-header">
-                        <div>
-                            <h3>👥 Staff Room</h3>
-                            <span class="zone_capacity">0/10</span>
-                        </div>
-                        <button class="add_zone_btn">+</button>
-                    </div>
-                    <div class="employee-list" id="StaffList">
-                    </div>
-                </div>
-                <!-- ------------------------------------------- -->
-                <div class="zone" id="Archives">
-                    <div class="zone-header">
-                        <div>
-                            <h3>📚 Archives</h3>
-                            <span class="zone_capacity">0/10</span>
-                        </div>
-                        <button class="add_zone_btn">+</button>
-                    </div>
-                    <div class="employee-list" id="ArchivesList">
-                    </div>
-                </div>
-                <!-- ------------------------------------------- -->
             </div>
+            <!-- ------------------------------------------- -->
         </main>
         <!-- end main -->
     </div>
     <!-- end container -->
+
+    <div class="modal" id="add_modal">
+        <div class="modal_content">
+            <div class="modal_head">
+                <h2>➕ Add New Employee</h2>
+                <button class="close_btn" id="add_close">✕</button>
+            </div>
+            <form id="add_employee_from">
+                <div class="the_form_group">
+                    <label>Name</label>
+                    <input type="text" class="employee_name" id="Name">
+                </div>
+
+                <div class="the_form_group">
+                    <label>Role</label>
+                    <select name="employee_role" id="Role">
+                        <option value="">Select a role</option>
+                        <option value="Receptionist">Receptionist</option>
+                        <option value="IT Technician">IT Technician</option>
+                        <option value="Security Agent">Security Agent</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Cleaning">Cleaning</option>
+                        <option value="General Staff">General Staff</option>
+                    </select>
+                </div>
+
+                <div class="the_form_group">
+                    <label>Photo URL</label>
+                    <input type="url" id="Photo">
+                    <img src="" alt="Preview" id="photo_preview" class="photo_preview">
+                </div>
+
+                <div class="the_form_group">
+                    <label>Email</label>
+                    <input type="email" id="Email">
+                </div>
+
+                <div class="the_form_group">
+                    <label>Phone</label>
+                    <input type="tel" id="Phone">
+                </div>
+                <div class="employee_experiences">
+                    <label>Professional Experiences</label>
+                    <div id="experiences_list">
+
+                    </div>
+                    <button class="add_experience_btn" type="button" id="add_experience_btn">➕ Add Experience</button>
+                </div>
+                <button type="submit" class="submit_btn">Add Employee</button>
+            </form>
+        </div>
+    </div>
+    <!-- ------------------------------------------------------------------- -->
+    <div class="profail_modal">
+        <div class="employee_profaile">
+            <div class="employee_title">
+                <h2>Employee Profile</h2>
+                <button class="close_btn" id="profaile_close">✕</button>
+            </div>
+            <div class="employee_info">
+                <div class="employe_img">
+                    <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/d9/fa/1b/lost-valley.jpg?w=1200&h=1200&s=1"
+                        alt="">
+                </div>
+                <div class="employe_name">
+                    <h3>Ismail Benmezi</h3>
+                    <span>Manager</span>
+                </div>
+            </div>
+            <div class="employe_contact">
+                <div>Email:test</div>
+                <div>phone:test</div>
+            </div>
+            <div class="employe_professional_exp">
+                <h3>Professional Experiences</h3>
+                <div>
+                    <div>test</div>
+                    <div>test</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="selest_modal">
+        <div class="select_content">
+            <div class="select_header">
+                <h2>Select Employee</h2>
+                <button class="close_btn" id="select_close">✕</button>
+            </div>
+            <div class="selection-list" id="selectionList">
+                <div class="employee-card">
+                    <img src="IMG/Admin-Profile-Vector-PNG-Clipart.png" alt="">
+                    <div class="employee-info">
+                        <h3>Lorem, ipsum.</h3>
+                        <p>Lorem, ipsum.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <footer></footer>
     <script src="JS/script.js"></script>
 </body>
