@@ -56,6 +56,8 @@ body {
     min-width: 280px;
     max-width: 350px;
     flex: 1;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .sidebar h2 {
@@ -196,12 +198,6 @@ body {
     gap: 5px;
 }
 
-
-.zone .employee-list img {
-    width: 60px;
-    cursor: pointer;
-}
-
 .zone {
     margin-top: 5px;
     overflow: hidden;
@@ -212,11 +208,42 @@ body {
 
 .employee-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     place-items: center;
-    max-height: 150px;
+    max-height: 100px;
     overflow-y: auto;
     overflow-x: hidden;
+    gap: 10px;
+}
+
+.employee-list .employee_room_list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background: #fff;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+.employee_room_list img {
+    width: 30px;
+}
+
+.employee_room_list h3 {
+    font-size: 10px;
+}
+
+.employee_room_list button {
+    background: #ff0000;
+    color: white;
+    border: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
 }
 
 .the_first_zone #Conference {
@@ -243,9 +270,20 @@ body {
 
 
 .zone .employee-list {
-    max-height: 200px;
+    max-height: 150px;
     overflow-y: auto;
 }
+
+.zone #StaffList {
+    max-height: 260px;
+    overflow-x: auto;
+}
+
+.zone #ConferenceList {
+    max-height: 140px;
+    overflow-x: auto;
+}
+
 
 .zone-header {
     display: flex;
@@ -526,14 +564,14 @@ div[data-empty~="empty-required"] {
     color: #00187f;
 }
 
-.employeeExperiences{
+.employeeExperiences {
     background: #fff;
     margin-bottom: 20px;
     padding: 10px 20px;
     border-radius: 10px;
 }
 
-.employeeExperiences span{
+.employeeExperiences span {
     color: #00187f;
 }
 
@@ -611,8 +649,6 @@ div[data-empty~="empty-required"] {
         flex-direction: column;
         gap: 0;
     }
-
-
 
     .zone {
         background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -701,6 +737,22 @@ div[data-empty~="empty-required"] {
     .the_third_zone,
     .the_fourth_zone {
         gap: 10px;
+    }
+
+    .unassigned_list {
+        max-width: 100%;
+    }
+
+    .employee-info h3 {
+        font-size: 20px;
+    }
+
+    .employee-info p {
+        font-size: 16px;
+    }
+
+    .sidebar {
+        max-height: 60vh;
     }
 }
 

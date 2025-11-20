@@ -7,6 +7,9 @@ const experiencesList = document.getElementById("experiences_list");
 const profailModal = document.getElementById("profail_modal");
 const addModal = document.getElementById("add_modal");
 const addEmployeeBtn = document.getElementById("add_employee_btn");
+const selectClose = document.getElementById("select_close");
+const selectionList = document.getElementById("selectionList");
+const employeeListRoom = document.querySelectorAll(".employee-list");
 // ------------------------------
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -14,11 +17,9 @@ document.addEventListener('DOMContentLoaded', function () {
     afficheEmployeesCards()
 })
 
-function showMessage(element, text) {
-    element.textContent = text;
-    element.style.display = "block";
-    setTimeout(() => element.style.display = "none", 3000)
-}
+selectClose.addEventListener("click", function () {
+    document.getElementById("selest_modal").style.display = "none";
+})
 
 document.getElementById("add_worker_but").addEventListener("click", function () {
     addModal.style.display = "flex";
@@ -45,6 +46,12 @@ addEmployeeFrom.addEventListener("submit", (e) => {
     if (addEmployeeBtn.textContent == "Add Employee")
         addEmployee();
 })
+
+function showMessage(element, text) {
+    element.textContent = text;
+    element.style.display = "block";
+    setTimeout(() => element.style.display = "none", 3000)
+}
 
 function showThephoto() {
     const PhotoInput = document.getElementById("Photo");
@@ -251,10 +258,107 @@ function suprimeEmployeesCards(id) {
     unassignedList.innerHTML = ""
     afficheEmployeesCards();
 }
+// ----------------------------------------------------------
+const zoneButtons = document.querySelectorAll(".add_zone_btn")
+zoneButtons.forEach(btn => {
+    btn.addEventListener("click", function () {
+        document.getElementById("selest_modal").style.display = "flex";
+        let zoneId = btn.parentElement.parentElement.id;
+        let employeeList = btn.parentElement.parentElement.children[1].id;
+        openEmployeeSelector(zoneId, employeeList);
+    })
+})
+// ----------------------------------------------------------
+
+function openEmployeeSelector(zoneId, employeeList) {
+    let renderPerRole = [];
+
+    switch (zoneId) {
+        case "Conference":
+            renderPerRole = ["Receptionist", "IT Technician", "Security Agent", "Manager", "Cleaning", "General Staff"];
+            break;
+        case "Staff":
+            renderPerRole = ["Receptionist", "IT Technician", "Security Agent", "Manager", "Cleaning", "General Staff"];
+            break;
+        case "server":
+            renderPerRole = ["IT Technician", "Manager", "Cleaning"];
+            break;
+        case "Security":
+            renderPerRole = ["Security Agent", "Manager", "Cleaning"];
+            break;
+        case "Reception":
+            renderPerRole = ["Receptionist", "Manager", "Cleaning"];
+            break;
+        case "Archives":
+            renderPerRole = ["Receptionist", "IT Technician", "Security Agent", "Manager", "General Staff"];
+            break;
+    }
+
+
+
+    let employeesData = getData();
+    selectionList.innerHTML = "";
+    employeesData.forEach(employee => {
+        if (renderPerRole.includes(employee.Role)) {
+            renderFilteredEmployees(employee, employeeList)
+        }
+    })
+}
+
+function renderFilteredEmployees(employee, employeeList) {
+    selectionList.innerHTML += `
+        <div class = "employee-card" style = "cursor: pointer;" onclick = "saveDataRoominLocal('${employee.Id}', '${employeeList}')"> 
+            <img src="${employee.Photo || '../IMG/Admin-Profile-Vector-PNG-Clipart.png'}" alt="">
+            <div class="employee-info">
+                <h3>${employee.Name}</h3>
+                <p>${employee.Role}</p>
+            </div>
+        </div>
+     `
+}
+
+function saveDataRoominLocal(employeId, employeeList) {
+    let roomsDataLocal = EmployeeRoomData();
+    const employeesData = getData();
+    let searchEmployeeById = employeesData.find((e) => e.Id === employeId);
+    roomsDataLocal.push({ employeId, employeeList, searchEmployeeById });
+    localStorage.setItem("roomsData", JSON.stringify(roomsDataLocal));
+    suprimeEmployeesCards(employeId);
+    employeeListRoom.innerHTML = "";
+    AddEmployeeToRoom();
+    document.getElementById("selest_modal").style.display = "none";
+}
+
+function AddEmployeeToRoom(){
+    let roomsDataLocal = EmployeeRoomData();
+    roomsDataLocal.forEach(worker => {
+        const displayemployeeinRoom = document.getElementById(worker.employeeList);
+        displayemployeeinRoom.innerHTML += `
+        <div class="employee_room_list">
+            <div>
+                <img src="${worker.searchEmployeeById.Photo || '../IMG/Admin-Profile-Vector-PNG-Clipart.png'}" alt="">
+            </div>
+            <div>
+                <h3>${worker.searchEmployeeById.Name}</h3>
+            </div>
+            <div>
+                <button>✕</button>
+            </div>
+        </div>
+    `
+    })
+}
+
+function EmployeeRoomData() {
+    let roomData = localStorage.getItem("roomsData");
+    return roomData ? JSON.parse(roomData) : [];
+}
 
 
 function initApp() {
     unassignedList.innerHTML = "";
+    employeeListRoom.innerHTML = "";
     afficheEmployeesCards();
+    AddEmployeeToRoom();
 }
 initApp();
