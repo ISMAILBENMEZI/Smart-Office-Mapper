@@ -208,7 +208,7 @@ body {
 
 .employee-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     place-items: center;
     max-height: 100px;
     overflow-y: auto;
@@ -218,20 +218,31 @@ body {
 
 .employee-list .employee_room_list {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     background: #fff;
     padding: 5px;
     border-radius: 8px;
+    width: 150px;
+    height: 60px;
+}
+
+.employee-list .employee_room_list div{
+    width: 50px;
 }
 
 .employee_room_list img {
     width: 30px;
+    height: 30px;
+    border-radius: 50%;
 }
 
 .employee_room_list h3 {
-    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 60px;
 }
 
 .employee_room_list button {
@@ -276,12 +287,12 @@ body {
 
 .zone #StaffList {
     max-height: 260px;
-    overflow-x: auto;
+    overflow-y: auto;
 }
 
 .zone #ConferenceList {
     max-height: 140px;
-    overflow-x: auto;
+    overflow-y: auto;
 }
 
 
@@ -316,11 +327,6 @@ body {
 .add_zone_btn:hover {
     background: #45a049;
     transform: rotate(90deg);
-}
-
-div[data-empty~="empty-required"] {
-    background: linear-gradient(135deg, #ff4c4c51 0%, #ffd1d1 100%);
-    border: 1px solid #ff0000;
 }
 
 /* ------------------------------------ */
