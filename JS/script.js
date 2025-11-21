@@ -46,9 +46,10 @@ addEmployeeFrom.addEventListener("submit", (e) => {
         addEmployee();
 })
 
-function showMessage(element, text) {
+async function showMessage(element, text) {
     element.textContent = text;
     element.style.display = "block";
+    // element.style.display = "none"
     setTimeout(() => element.style.display = "none", 3000)
 }
 
@@ -133,7 +134,8 @@ function addEmployee() {
         Photo: document.getElementById("Photo").value.trim(),
         Email: document.getElementById("Email").value.trim(),
         Phone: document.getElementById("Phone").value,
-        Experiences: experiences
+        Experiences: experiences,
+        Room: null
     };
 
     let eventData = getData();
@@ -148,7 +150,7 @@ function addEmployee() {
 }
 
 function afficheEmployeesCards() {
-    const afficheCards = getData();
+    const afficheCards = getData().filter(e => e.Room === null);
     if (!afficheCards)
         return;
     afficheCards.forEach(employee => {
@@ -174,8 +176,8 @@ function afficheEmployeesCards() {
 }
 
 function afficheEmployeeInformation(id) {
-    const searchEmployee = getData();
-    let searchEmployeeById = searchEmployee.find((e) => e.Id === id)
+    const employeeData = getData();
+    let searchEmployeeById = employeeData.find((e) => e.Id === id)
     profailModal.style.display = "flex"
     profailModal.innerHTML = `
         <div class="employee_profaile">
@@ -185,8 +187,7 @@ function afficheEmployeeInformation(id) {
             </div>
             <div class="employee_info">
                 <div class="employe_img">
-                    <img src="${searchEmployeeById.Photo || '../IMG/Admin-Profile-Vector-PNG-Clipart.png'}"
-                        alt="">
+                    <img src="${searchEmployeeById.Photo || '../IMG/Admin-Profile-Vector-PNG-Clipart.png'}" alt="">
                 </div>
                 <div class="employe_name">
                     <h3>${searchEmployeeById.Name}</h3>
@@ -298,7 +299,7 @@ function openEmployeeSelector(zoneId, employeeList) {
     let employeesData = getData();
     selectionList.innerHTML = "";
     employeesData.forEach(employee => {
-        if (renderPerRole.includes(employee.Role)) {
+        if (renderPerRole.includes(employee.Role) && employee.Room !== employeeList) {
             renderFilteredEmployees(employee, employeeList)
         }
     })
@@ -317,35 +318,37 @@ function renderFilteredEmployees(employee, employeeList) {
 }
 
 function saveDataRoominLocal(employeId, employeeList) {
-    let roomsDataLocal = EmployeeRoomData();
-    const employeesData = getData();
-    let searchEmployeeById = employeesData.find((e) => e.Id === employeId);
-    roomsDataLocal.push({ employeId, employeeList, searchEmployeeById });
-    localStorage.setItem("roomsData", JSON.stringify(roomsDataLocal));
-    if (AddEmployeeToRoom("add")) {
-        suprimeEmployeesCards(employeId);
+    let employeeData = getData();
+    let searchEmployeeById = employeeData.find((e) => e.Id === employeId);
+
+    localStorage.setItem("employeesInformation", JSON.stringify(employeeData));
+    if (updatedCapacity(employeeList)){
+         searchEmployeeById.Room = employeeList;
+
+        document.querySelectorAll(".employee-list").forEach(list => {
+            list.innerHTML = "";
+        })
+        AddEmployeeToRoom(employeeList)
+        updatedCapacity(employeeList)
     }
+    initApp();
     document.getElementById("selest_modal").style.display = "none";
 }
 
-function AddEmployeeToRoom(choose) {
-    document.querySelectorAll(".employee-list").forEach(list => {
-        list.innerHTML = "";
-    })
-    let roomsDataLocal = EmployeeRoomData();
-    roomsDataLocal.forEach(worker => {
-        updatedCapacity(worker.employeeList, choose);
-        const displayemployeeinRoom = document.getElementById(worker.employeeList);
+function AddEmployeeToRoom(roomId) {
+    let employeesData = getData().filter(e => e.Room === roomId);
+    employeesData.forEach(worker => {
+        const displayemployeeinRoom = document.getElementById(roomId);
         displayemployeeinRoom.innerHTML += `
         <div class="employee_room_list">
             <div>
-                <img src="${worker.searchEmployeeById.Photo || '../IMG/Admin-Profile-Vector-PNG-Clipart.png'}" alt="">
+                <img src="${worker.Photo || '../IMG/Admin-Profile-Vector-PNG-Clipart.png'}" alt="" style="cursor: pointer;" onclick = "afficheEmployeeInformation('${worker.Id}')">
             </div>
             <div>
-                <h3>${worker.searchEmployeeById.Name}</h3>
+                <h3 style="cursor: pointer;" onclick = "afficheEmployeeInformation('${worker.Id}')">${worker.Name}</h3>
             </div>
             <div>
-                <button>✕</button>
+                <button onclick = "returnToSidebar('${worker.Id}')" style="cursor: pointer;">✕</button>
             </div>
         </div>
     `
@@ -353,30 +356,58 @@ function AddEmployeeToRoom(choose) {
     return true;
 }
 
-function updatedCapacity(roomId, choose) {
+function updatedCapacity(roomId , choose = null) {
     const list = document.getElementById(roomId);
     const zoneDiv = list.closest(".zone");
+    const redZone = zoneDiv.getAttribute("data-empty");
     const countSpan = zoneDiv.querySelector(".zone_capacity");
     const capacityRoom = countSpan.getAttribute("data-capacity");
-    let current = list.children.length + 1;
-    if (choose == "add")
-        current += 1;
-    if (choose == "add" && current > capacityRoom) {
-        showMessage(badMessage, "This room is full!");
-        return;
+
+    let current = list.children.length;
+
+    if (redZone === "empty-required" && current <= 0) {
+        zoneDiv.style.background = "#ffflinear-gradient(135deg, #ff4c4c51 0%, #ffd1d1 100%)";
+        zoneDiv.style.border = "1px solid #ff0000";
     }
+    else{
+        zoneDiv.style.background = "none";
+        zoneDiv.style.border=  "none";
+    }
+
+    if (current >= capacityRoom && choose !== "aficher") {
+        showMessage(badMessage, "This room is full!");
+        return false;
+    }
+
     countSpan.textContent = `${current}/${capacityRoom}`
+    return true
 }
 
-function EmployeeRoomData() {
-    let roomData = localStorage.getItem("roomsData");
-    return roomData ? JSON.parse(roomData) : [];
+function returnToSidebar(employeId) {
+    let employeesData = getData();
+    let searchEmployeeById = employeesData.find(e => e.Id === employeId);
+    searchEmployeeById.Room = null;
+    localStorage.setItem("employeesInformation", JSON.stringify(employeesData));
+    initApp()
 }
 
 
 function initApp() {
     unassignedList.innerHTML = "";
     afficheEmployeesCards();
-    AddEmployeeToRoom("afficher");
+    document.querySelectorAll(".employee-list").forEach(list => {
+        list.innerHTML = "";
+    })
+    let rooms = [
+        "ConferenceList",
+        "StaffList",
+        "serverList",
+        "SecurityList",
+        "Reception_list",
+        "ArchivesList"];
+    rooms.forEach(rooms => {
+        AddEmployeeToRoom(rooms);
+        updatedCapacity(rooms , "aficher")
+    })
 }
 initApp();
