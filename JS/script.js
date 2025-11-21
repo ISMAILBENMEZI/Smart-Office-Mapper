@@ -9,7 +9,6 @@ const addModal = document.getElementById("add_modal");
 const addEmployeeBtn = document.getElementById("add_employee_btn");
 const selectClose = document.getElementById("select_close");
 const selectionList = document.getElementById("selectionList");
-const employeeListRoom = document.querySelectorAll(".employee-list");
 // ------------------------------
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -323,15 +322,19 @@ function saveDataRoominLocal(employeId, employeeList) {
     let searchEmployeeById = employeesData.find((e) => e.Id === employeId);
     roomsDataLocal.push({ employeId, employeeList, searchEmployeeById });
     localStorage.setItem("roomsData", JSON.stringify(roomsDataLocal));
-    suprimeEmployeesCards(employeId);
-    employeeListRoom.innerHTML = "";
-    AddEmployeeToRoom();
+    if (AddEmployeeToRoom("add")) {
+        suprimeEmployeesCards(employeId);
+    }
     document.getElementById("selest_modal").style.display = "none";
 }
 
-function AddEmployeeToRoom(){
+function AddEmployeeToRoom(choose) {
+    document.querySelectorAll(".employee-list").forEach(list => {
+        list.innerHTML = "";
+    })
     let roomsDataLocal = EmployeeRoomData();
     roomsDataLocal.forEach(worker => {
+        updatedCapacity(worker.employeeList, choose);
         const displayemployeeinRoom = document.getElementById(worker.employeeList);
         displayemployeeinRoom.innerHTML += `
         <div class="employee_room_list">
@@ -347,6 +350,22 @@ function AddEmployeeToRoom(){
         </div>
     `
     })
+    return true;
+}
+
+function updatedCapacity(roomId, choose) {
+    const list = document.getElementById(roomId);
+    const zoneDiv = list.closest(".zone");
+    const countSpan = zoneDiv.querySelector(".zone_capacity");
+    const capacityRoom = countSpan.getAttribute("data-capacity");
+    let current = list.children.length + 1;
+    if (choose == "add")
+        current += 1;
+    if (choose == "add" && current > capacityRoom) {
+        showMessage(badMessage, "This room is full!");
+        return;
+    }
+    countSpan.textContent = `${current}/${capacityRoom}`
 }
 
 function EmployeeRoomData() {
@@ -357,8 +376,7 @@ function EmployeeRoomData() {
 
 function initApp() {
     unassignedList.innerHTML = "";
-    employeeListRoom.innerHTML = "";
     afficheEmployeesCards();
-    AddEmployeeToRoom();
+    AddEmployeeToRoom("afficher");
 }
 initApp();
