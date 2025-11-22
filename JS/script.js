@@ -1,4 +1,3 @@
-// Global variable 
 const goodMessage = document.getElementById("good");
 const badMessage = document.getElementById("bad");
 const addEmployeeFrom = document.getElementById("add_employee_from");
@@ -46,10 +45,9 @@ addEmployeeFrom.addEventListener("submit", (e) => {
         addEmployee();
 })
 
-async function showMessage(element, text) {
+function showMessage(element, text) {
     element.textContent = text;
     element.style.display = "block";
-    // element.style.display = "none"
     setTimeout(() => element.style.display = "none", 3000)
 }
 
@@ -90,6 +88,7 @@ function addNewEexperience(obj = null) {
     `
     experiencesList.appendChild(experiencesItem);
 }
+
 function addEmployee() {
     const experiencesItem = document.querySelectorAll(".experiences_item");
     let experiences = [];
@@ -320,16 +319,14 @@ function renderFilteredEmployees(employee, employeeList) {
 function saveDataRoominLocal(employeId, employeeList) {
     let employeeData = getData();
     let searchEmployeeById = employeeData.find((e) => e.Id === employeId);
-
-    localStorage.setItem("employeesInformation", JSON.stringify(employeeData));
-    if (updatedCapacity(employeeList)){
-         searchEmployeeById.Room = employeeList;
-
+    if (updatedCapacity(employeeList)) {
+        searchEmployeeById.Room = employeeList;
+        localStorage.setItem("employeesInformation", JSON.stringify(employeeData));
         document.querySelectorAll(".employee-list").forEach(list => {
             list.innerHTML = "";
         })
         AddEmployeeToRoom(employeeList)
-        updatedCapacity(employeeList)
+        updatedCapacity(employeeList, "aficher")
     }
     initApp();
     document.getElementById("selest_modal").style.display = "none";
@@ -356,7 +353,7 @@ function AddEmployeeToRoom(roomId) {
     return true;
 }
 
-function updatedCapacity(roomId , choose = null) {
+function updatedCapacity(roomId, choose = null) {
     const list = document.getElementById(roomId);
     const zoneDiv = list.closest(".zone");
     const redZone = zoneDiv.getAttribute("data-empty");
@@ -365,17 +362,18 @@ function updatedCapacity(roomId , choose = null) {
 
     let current = list.children.length;
 
-    if (redZone === "empty-required" && current <= 0) {
-        zoneDiv.style.background = "#ffflinear-gradient(135deg, #ff4c4c51 0%, #ffd1d1 100%)";
-        zoneDiv.style.border = "1px solid #ff0000";
+    if (redZone === "empty-required" && current > 0) {
+        zoneDiv.style.background = "linear-gradient(135deg, #505051d0 0%, #2f2f3090 100%)";
+        zoneDiv.style.border = "3px solid transparent";
     }
-    else{
-        zoneDiv.style.background = "none";
-        zoneDiv.style.border=  "none";
+    else if (redZone === "empty-required") {
+        zoneDiv.style.background = "linear-gradient(135deg, #f60b0b55 0%, #ffd1d195 100%)";
+        zoneDiv.style.border = "2px solid #f70000";
     }
 
-    if (current >= capacityRoom && choose !== "aficher") {
+    if ((current + 1) > capacityRoom && choose !== "aficher") {
         showMessage(badMessage, "This room is full!");
+        countSpan.style.color = "red"
         return false;
     }
 
@@ -390,7 +388,6 @@ function returnToSidebar(employeId) {
     localStorage.setItem("employeesInformation", JSON.stringify(employeesData));
     initApp()
 }
-
 
 function initApp() {
     unassignedList.innerHTML = "";
@@ -407,7 +404,7 @@ function initApp() {
         "ArchivesList"];
     rooms.forEach(rooms => {
         AddEmployeeToRoom(rooms);
-        updatedCapacity(rooms , "aficher")
+        updatedCapacity(rooms, "aficher")
     })
 }
 initApp();

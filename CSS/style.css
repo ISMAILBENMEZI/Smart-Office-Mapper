@@ -202,8 +202,6 @@ body {
     margin-top: 5px;
     overflow: hidden;
     height: fit-content;
-    background-color: #00000046;
-    border: 1px solid red;
 }
 
 .employee-list {
@@ -228,7 +226,7 @@ body {
     height: 60px;
 }
 
-.employee-list .employee_room_list div{
+.employee-list .employee_room_list div {
     width: 50px;
 }
 
@@ -657,7 +655,7 @@ body {
     }
 
     .zone {
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: linear-gradient(135deg, #505051d0 0%, #2f2f3090 100%);
         border-radius: 10px;
         padding: 20px;
         min-height: 200px;
@@ -675,7 +673,7 @@ body {
     .the_first_zone #Staff,
     .the_first_zone #Conference {
         width: 50%;
-        height: 95%;
+        height: auto;
         max-height: 100%;
     }
 
@@ -698,28 +696,45 @@ body {
 
     .employee-list {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         place-items: center;
     }
 
-    .zone .employee-list img {
-        width: 60px;
-        cursor: pointer;
+    .employee-list .employee_room_list {
+        background: #454545;
     }
 
-    div[data-empty~="empty-required"] {
-        background: linear-gradient(135deg, #ffe5e5 0%, #ffd1d1 100%);
-        border-color: #ff6b6b;
+    .employee-list .employee_room_list div {
+        width: 50px;
+    }
+
+    .employee_room_list img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+
+    .employee_room_list h3 {
+        max-width: 50px;
+        color: #fff;
+    }
+
+    .employee_room_list button {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+
     }
 
     .zone-header h3 {
-        color: #000000;
+        color: #dcdcdc;
         font-size: 18px;
     }
 
     .zone-header .zone_capacity {
-        color: #504e4e;
+        color: #ffffff;
     }
+
 }
 
 @media (max-width:1100px) {
@@ -759,6 +774,12 @@ body {
 
     .sidebar {
         max-height: 60vh;
+    }
+
+    .employee-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        place-items: center;
     }
 }
 
